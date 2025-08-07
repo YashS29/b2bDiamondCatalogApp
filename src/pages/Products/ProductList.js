@@ -460,33 +460,124 @@ const ProductList = () => {
         </div>
 
         {/* Sort Options */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
             <label className="text-sm font-medium text-gray-700">Sort by:</label>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="dateAdded">Date Added</option>
-              <option value="caratWeight">Carat Weight</option>
-              <option value="totalPrice">Total Price</option>
-            </select>
-            <button
-              onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-              className="p-2 text-gray-600 hover:text-gray-900 transition-colors duration-200"
-            >
-              <svg className={`w-5 h-5 transform ${sortOrder === 'desc' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
-              </svg>
-            </button>
+            <div className="flex items-center space-x-2">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="flex-1 sm:flex-none px-3 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              >
+                <option value="dateAdded">Date Added</option>
+                <option value="caratWeight">Carat Weight</option>
+                <option value="totalPrice">Total Price</option>
+              </select>
+              <button
+                onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                className="p-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 border border-gray-200 rounded-lg"
+                title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
+              >
+                <svg className={`w-4 h-4 sm:w-5 sm:h-5 transform ${sortOrder === 'desc' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Products Display */}
         {viewMode === 'table' ? (
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden">
-            <div className="overflow-x-auto">
+            {/* Mobile Table View */}
+            <div className="block sm:hidden">
+              <div className="divide-y divide-gray-200">
+                {currentProducts.map((product) => (
+                  <div key={product.id} className="p-4 hover:bg-gray-50/50 transition-colors duration-200">
+                    {/* Product Header */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-12 w-12 sm:h-16 sm:w-16">
+                          <img
+                            className="h-12 w-12 sm:h-16 sm:w-16 rounded-xl object-cover shadow-md"
+                            src={product.image}
+                            alt={`${product.shape} Diamond`}
+                          />
+                        </div>
+                        <div className="ml-3">
+                          <div className="text-sm font-semibold text-gray-900">{product.shape}</div>
+                          <div className="text-xs text-gray-600">{product.caratWeight} Carat</div>
+                        </div>
+                      </div>
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${
+                        product.stockStatus === 'Available' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {product.stockStatus}
+                      </span>
+                    </div>
+                    
+                    {/* Product Details */}
+                    <div className="grid grid-cols-2 gap-2 mb-3 text-sm">
+                      <div>
+                        <span className="text-gray-600">Color:</span>
+                        <span className="font-medium ml-1">{product.color}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Clarity:</span>
+                        <span className="font-medium ml-1">{product.clarity}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Cut:</span>
+                        <span className="font-medium ml-1">{product.cut}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Cert:</span>
+                        <span className="font-medium ml-1 text-xs">{product.certification}</span>
+                      </div>
+                    </div>
+                    
+                    {/* Pricing */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <div className="font-semibold text-lg text-gray-900">{formatCurrency(product.totalPrice)}</div>
+                        <div className="text-sm text-gray-600">{formatCurrency(product.pricePerCarat)}/ct</div>
+                      </div>
+                      
+                      {/* Actions */}
+                      <div className="flex items-center space-x-1">
+                        <button className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                        </button>
+                        <button 
+                          onClick={() => openModal('edit', product)}
+                          className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </button>
+                        <button 
+                          onClick={() => openModal('delete', product)}
+                          className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-all duration-200"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden sm:block overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50/50">
                   <tr>
@@ -576,17 +667,17 @@ const ProductList = () => {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {currentProducts.map((product) => (
               <div key={product.id} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 group">
                 <div className="relative">
                   <img
                     src={product.image}
                     alt={`${product.shape} Diamond`}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 right-4">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
+                  <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+                    <span className={`inline-flex items-center px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs font-semibold ${
                       product.stockStatus === 'Available' 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-red-100 text-red-800'
@@ -596,40 +687,45 @@ const ProductList = () => {
                   </div>
                 </div>
                 
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold text-gray-900">{product.shape}</h3>
+                <div className="p-4 sm:p-6">
+                  <div className="flex items-start justify-between mb-3 sm:mb-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900">{product.shape}</h3>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-blue-600">{formatCurrency(product.totalPrice)}</div>
-                      <div className="text-sm text-gray-600">{formatCurrency(product.pricePerCarat)}/ct</div>
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600">{formatCurrency(product.totalPrice)}</div>
+                      <div className="text-xs sm:text-sm text-gray-600">{formatCurrency(product.pricePerCarat)}/ct</div>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-3 sm:mb-4 text-sm">
                     <div>
                       <span className="text-gray-600">Carat:</span>
-                      <span className="font-semibold ml-2">{product.caratWeight}</span>
+                      <span className="font-semibold ml-1 sm:ml-2">{product.caratWeight}</span>
                     </div>
                     <div>
                       <span className="text-gray-600">Color:</span>
-                      <span className="font-semibold ml-2">{product.color}</span>
+                      <span className="font-semibold ml-1 sm:ml-2">{product.color}</span>
                     </div>
                     <div>
                       <span className="text-gray-600">Clarity:</span>
-                      <span className="font-semibold ml-2">{product.clarity}</span>
+                      <span className="font-semibold ml-1 sm:ml-2">{product.clarity}</span>
                     </div>
                     <div>
                       <span className="text-gray-600">Cut:</span>
-                      <span className="font-semibold ml-2">{product.cut}</span>
+                      <span className="font-semibold ml-1 sm:ml-2">{product.cut}</span>
                     </div>
                   </div>
                   
-                  <div className="text-xs text-gray-500 mb-4">
-                    Certified by {product.certification} • Added {new Date(product.dateAdded).toLocaleDateString()}
+                  <div className="text-xs text-gray-500 mb-3 sm:mb-4">
+                    <div className="sm:hidden">
+                      {product.certification} • {new Date(product.dateAdded).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </div>
+                    <div className="hidden sm:block">
+                      Certified by {product.certification} • Added {new Date(product.dateAdded).toLocaleDateString()}
+                    </div>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <div className="flex space-x-2">
+                    <div className="flex space-x-1 sm:space-x-2">
                       <button className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -665,15 +761,15 @@ const ProductList = () => {
 
         {/* Empty State */}
         {filteredProducts.length === 0 && !isLoading && (
-          <div className="text-center py-12">
-            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="text-center py-8 sm:py-12 px-4">
+            <svg className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2 2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
             <h3 className="mt-2 text-sm font-medium text-gray-900">No products found</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-500 px-4">
               Try adjusting your search or filter criteria to find what you're looking for.
             </p>
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <button
                 onClick={clearFilters}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
@@ -687,14 +783,14 @@ const ProductList = () => {
 
       {/* Modal Overlays */}
       {modal.type === 'add' && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 p-2 sm:p-4 pt-20 sm:pt-24">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[75vh] sm:max-h-[80vh] overflow-y-auto mx-4">
-            <div className="p-4 sm:p-6 border-b border-gray-200">
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 p-2 sm:p-4 pt-16 sm:pt-20">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] sm:max-h-[80vh] overflow-y-auto mx-2 sm:mx-4">
+            <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Add New Product</h2>
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Add New Product</h2>
                 <button
                   onClick={closeModal}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                  className="p-1.5 sm:p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
                 >
                   <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -702,7 +798,7 @@ const ProductList = () => {
                 </button>
               </div>
             </div>
-            <div className="p-4 sm:p-6">
+            <div className="p-3 sm:p-4 lg:p-6">
               <AddProduct 
                 onClose={closeModal}
                 onSuccess={handleAddSuccess}
@@ -710,7 +806,7 @@ const ProductList = () => {
               />
             </div>
             {modalError && (
-              <div className="p-4 bg-red-50 border-t border-red-200">
+              <div className="p-3 sm:p-4 bg-red-50 border-t border-red-200">
                 <p className="text-red-700 text-sm">{modalError}</p>
               </div>
             )}
@@ -719,14 +815,14 @@ const ProductList = () => {
       )}
 
       {modal.type === 'edit' && modal.product && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 p-2 sm:p-4 pt-20 sm:pt-24">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[75vh] sm:max-h-[80vh] overflow-y-auto mx-4">
-            <div className="p-4 sm:p-6 border-b border-gray-200">
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 p-2 sm:p-4 pt-16 sm:pt-20">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] sm:max-h-[80vh] overflow-y-auto mx-2 sm:mx-4">
+            <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Edit Product</h2>
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Edit Product</h2>
                 <button
                   onClick={closeModal}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                  className="p-1.5 sm:p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
                 >
                   <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -734,7 +830,7 @@ const ProductList = () => {
                 </button>
               </div>
             </div>
-            <div className="p-4 sm:p-6">
+            <div className="p-3 sm:p-4 lg:p-6">
               <EditProduct 
                 product={modal.product}
                 onClose={closeModal}
@@ -743,7 +839,7 @@ const ProductList = () => {
               />
             </div>
             {modalError && (
-              <div className="p-4 bg-red-50 border-t border-red-200">
+              <div className="p-3 sm:p-4 bg-red-50 border-t border-red-200">
                 <p className="text-red-700 text-sm">{modalError}</p>
               </div>
             )}
