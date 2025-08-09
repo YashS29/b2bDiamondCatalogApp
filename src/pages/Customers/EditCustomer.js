@@ -172,140 +172,169 @@ const EditCustomer = ({ customer, onClose, onSuccess, onError }) => {
   }
 
   return (
-    <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Basic Information */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Customer Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name *
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Enter full name"
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                  errors.name ? 'border-red-500' : 'border-gray-200'
-                }`}
-              />
-              {errors.name && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.name}</p>}
+    <div className="w-full">
+      <div className="p-6">
+        {/* Header */}
+        <div className="flex items-center mb-4">
+          <div className="flex-shrink-0 h-10 w-10">
+            <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
             </div>
+          </div>
+          <div className="ml-4">
+            <h3 className="text-lg font-semibold text-gray-900">Edit Customer</h3>
+            <p className="text-sm text-gray-600">Update customer information</p>
+          </div>
+        </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address *
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Enter email address"
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                  errors.email ? 'border-red-500' : 'border-gray-200'
-                }`}
-              />
-              {errors.email && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.email}</p>}
+        {/* Customer Info */}
+        <div className="bg-gray-50 rounded-xl p-4 mb-6">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 h-12 w-12">
+              <div className="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg">
+                {customer.name.charAt(0).toUpperCase()}
+              </div>
+            </div>
+            <div className="ml-4">
+              <h4 className="text-base font-medium text-gray-900">{customer.name}</h4>
+              <p className="text-sm text-gray-600">{customer.email}</p>
+              <p className="text-sm text-gray-500">@{customer.username}</p>
             </div>
           </div>
         </div>
 
-        {/* Account Details */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Account Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Username *
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">@</span>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Basic Information */}
+          <div>
+            <h4 className="text-base font-semibold text-gray-900 mb-3">Customer Information</h4>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name *
+                </label>
                 <input
                   type="text"
-                  name="username"
-                  value={formData.username}
+                  name="name"
+                  value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="username"
-                  className={`w-full pl-8 pr-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                    errors.username ? 'border-red-500' : 'border-gray-200'
+                  placeholder="Enter full name"
+                  className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                    errors.name ? 'border-red-500' : 'border-gray-200'
                   }`}
                 />
+                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
               </div>
-              {errors.username && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.username}</p>}
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Status
-              </label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base"
-              >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Password Note */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-          <div className="flex items-start">
-            <svg className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <div>
-              <h3 className="text-sm font-medium text-blue-900">Password Management</h3>
-              <p className="text-sm text-blue-700 mt-1">
-                To reset the customer's password, use the "Reset Password" action from the customer list.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Submit Error */}
-        {errors.submit && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-3 sm:p-4">
-            <p className="text-red-700 text-xs sm:text-sm">{errors.submit}</p>
-          </div>
-        )}
-
-        {/* Form Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-4 pt-6 border-t border-gray-200">
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-all duration-200 text-sm sm:text-base"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={isSaving}
-            className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base"
-          >
-            {isSaving ? (
-              <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white mr-2"></div>
-                <span className="hidden sm:inline">Updating Customer...</span>
-                <span className="sm:hidden">Updating...</span>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter email address"
+                  className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                    errors.email ? 'border-red-500' : 'border-gray-200'
+                  }`}
+                />
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
-            ) : (
-              <>
-                <span className="hidden sm:inline">Update Customer</span>
-                <span className="sm:hidden">Update</span>
-              </>
-            )}
-          </button>
-        </div>
-      </form>
+            </div>
+          </div>
+
+          {/* Account Details */}
+          <div>
+            <h4 className="text-base font-semibold text-gray-900 mb-3">Account Details</h4>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Username *
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">@</span>
+                  <input
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleInputChange}
+                    placeholder="username"
+                    className={`w-full pl-8 pr-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                      errors.username ? 'border-red-500' : 'border-gray-200'
+                    }`}
+                  />
+                </div>
+                {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Status
+                </label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                >
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Password Note */}
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+            <div className="flex items-start">
+              <svg className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h4 className="text-sm font-medium text-blue-900">Password Management</h4>
+                <p className="text-sm text-blue-700 mt-1">
+                  To reset the customer's password, use the "Reset Password" action from the customer list.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Submit Error */}
+          {errors.submit && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-3">
+              <p className="text-red-700 text-xs">{errors.submit}</p>
+            </div>
+          )}
+
+          {/* Form Actions */}
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-4 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-all duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSaving}
+              className="flex-1 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {isSaving ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  <span>Updating...</span>
+                </div>
+              ) : (
+                'Update Customer'
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddProduct from './AddProduct';
 import EditProduct from './EditProduct';
 import DeleteProduct from './DeleteProduct';
+import Dialog from '../../components/Dialog';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -14,7 +15,7 @@ const ProductList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [showFilters, setShowFilters] = useState(false);
-  // Modal state: { type: 'add' | 'edit' | 'delete' | null, product: object | null }
+  // Modal state: { type: 'add' | 'edit' | 'delete' | null, product: object | null, position: { x: number, y: number } | null }
   const [modal, setModal] = useState({ type: null, product: null });
   const [modalError, setModalError] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
@@ -554,7 +555,7 @@ const ProductList = () => {
                           </svg>
                         </button>
                         <button 
-                          onClick={() => openModal('edit', product)}
+                          onClick={(e) => openModal('edit', product)}
                           className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg transition-all duration-200"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -643,7 +644,7 @@ const ProductList = () => {
                             </svg>
                           </button>
                           <button 
-                            onClick={() => openModal('edit', product)}
+                            onClick={(e) => openModal('edit', product)}
                             className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg transition-all duration-200"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -733,7 +734,7 @@ const ProductList = () => {
                         </svg>
                       </button>
                       <button 
-                        onClick={() => openModal('edit', product)}
+                        onClick={(e) => openModal('edit', product)}
                         className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg transition-all duration-200"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -781,90 +782,73 @@ const ProductList = () => {
         )}
       </div>
 
-      {/* Modal Overlays */}
-      {modal.type === 'add' && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 p-2 sm:p-4 pt-16 sm:pt-20">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] sm:max-h-[80vh] overflow-y-auto mx-2 sm:mx-4">
-            <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Add New Product</h2>
-                <button
-                  onClick={closeModal}
-                  className="p-1.5 sm:p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-                >
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div className="p-3 sm:p-4 lg:p-6">
-              <AddProduct 
-                onClose={closeModal}
-                onSuccess={handleAddSuccess}
-                onError={setModalError}
-              />
-            </div>
-            {modalError && (
-              <div className="p-3 sm:p-4 bg-red-50 border-t border-red-200">
-                <p className="text-red-700 text-sm">{modalError}</p>
-              </div>
-            )}
-          </div>
+      {/* Dialog Components */}
+      <Dialog
+        isOpen={modal.type === 'add'}
+        onClose={closeModal}
+        title="Add New Product"
+        size="md"
+      >
+        <div className="p-2 sm:p-3 lg:p-4">
+          <AddProduct 
+            onClose={closeModal}
+            onSuccess={handleAddSuccess}
+            onError={setModalError}
+          />
         </div>
-      )}
-
-      {modal.type === 'edit' && modal.product && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 p-2 sm:p-4 pt-16 sm:pt-20">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] sm:max-h-[80vh] overflow-y-auto mx-2 sm:mx-4">
-            <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Edit Product</h2>
-                <button
-                  onClick={closeModal}
-                  className="p-1.5 sm:p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-                >
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div className="p-3 sm:p-4 lg:p-6">
-              <EditProduct 
-                product={modal.product}
-                onClose={closeModal}
-                onSuccess={handleEditSuccess}
-                onError={setModalError}
-              />
-            </div>
-            {modalError && (
-              <div className="p-3 sm:p-4 bg-red-50 border-t border-red-200">
-                <p className="text-red-700 text-sm">{modalError}</p>
-              </div>
-            )}
+        {modalError && (
+          <div className="p-3 sm:p-4 bg-red-50 border-t border-red-200">
+            <p className="text-red-700 text-sm">{modalError}</p>
           </div>
-        </div>
-      )}
+        )}
+      </Dialog>
 
-      {modal.type === 'delete' && modal.product && (
-        <DeleteProduct
-          product={modal.product}
-          isOpen={true}
-          onClose={closeModal}
-          onConfirm={(id, reason) => {
-            setModalLoading(true);
-            // Simulate delete logic (replace with API call in future)
-            setTimeout(() => {
-              handleDeleteSuccess(id);
-              setModalLoading(false);
-            }, 800);
-          }}
-          isDeleting={modalLoading}
-        />
-      )}
+      <Dialog
+        isOpen={modal.type === 'edit' && modal.product}
+        onClose={closeModal}
+        title="Edit Product"
+        size="md"
+      >
+        <div className="p-2 sm:p-3 lg:p-4">
+          <EditProduct
+            product={modal.product}
+            onClose={closeModal}
+            onSuccess={handleEditSuccess}
+            onError={setModalError}
+          />
+        </div>
+        {modalError && (
+          <div className="p-3 sm:p-4 bg-red-50 border-t border-red-200">
+            <p className="text-red-700 text-sm">{modalError}</p>
+          </div>
+        )}
+      </Dialog>
+
+      <Dialog
+        isOpen={modal.type === 'delete' && modal.product}
+        onClose={closeModal}
+        title="Delete Product"
+        size="md"
+      >
+        <div className="p-3 sm:p-4 lg:p-6">
+          <DeleteProduct
+            product={modal.product}
+            isOpen={true}
+            onClose={closeModal}
+            onConfirm={(id, reason) => {
+              setModalLoading(true);
+              // Simulate delete logic (replace with API call in future)
+              setTimeout(() => {
+                handleDeleteSuccess(id);
+                setModalLoading(false);
+              }, 800);
+            }}
+            isDeleting={modalLoading}
+          />
+        </div>
+      </Dialog>
     </div>
   );
 };
 
-export default ProductList;
+export default ProductList; 

@@ -325,255 +325,275 @@ const EditProduct = ({ product, onClose, onSuccess, onError }) => {
   }
 
   return (
-    <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Basic Information */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Basic Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Diamond Shape *
-              </label>
-              <select
-                name="shape"
-                value={formData.shape}
-                onChange={handleInputChange}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                  errors.shape ? 'border-red-500' : 'border-gray-200'
-                }`}
-              >
-                <option value="">Select Shape</option>
-                {shapeOptions.map(shape => (
-                  <option key={shape} value={shape}>{shape}</option>
-                ))}
-              </select>
-              {errors.shape && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.shape}</p>}
+    <div className="w-full">
+      <div className="p-6">
+        {/* Header */}
+        <div className="flex items-center mb-4">
+          <div className="flex-shrink-0 h-10 w-10">
+            <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
             </div>
+          </div>
+          <div className="ml-4">
+            <h3 className="text-lg font-semibold text-gray-900">Edit Product</h3>
+            <p className="text-sm text-gray-600">Update product information</p>
+          </div>
+        </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Carat Weight *
-              </label>
-              <input
-                type="number"
-                name="caratWeight"
-                value={formData.caratWeight}
-                onChange={handleInputChange}
-                step="0.01"
-                min="0"
-                placeholder="e.g., 2.50"
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                  errors.caratWeight ? 'border-red-500' : 'border-gray-200'
-                }`}
+        {/* Product Info */}
+        <div className="bg-gray-50 rounded-xl p-4 mb-6">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 h-12 w-12">
+              <img
+                src={product.image || 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=150&h=150&fit=crop&crop=center'}
+                alt={product.shape}
+                className="h-12 w-12 rounded-lg object-cover border border-gray-200"
               />
-              {errors.caratWeight && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.caratWeight}</p>}
+            </div>
+            <div className="ml-4">
+              <h4 className="text-base font-medium text-gray-900">{product.shape} Diamond</h4>
+              <p className="text-sm text-gray-600">{product.caratWeight} carat • {product.color} • {product.clarity}</p>
+              <p className="text-sm text-gray-500">${product.totalPrice.toLocaleString()}</p>
             </div>
           </div>
         </div>
 
-        {/* Diamond Characteristics */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Diamond Characteristics</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Color *
-              </label>
-              <select
-                name="color"
-                value={formData.color}
-                onChange={handleInputChange}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                  errors.color ? 'border-red-500' : 'border-gray-200'
-                }`}
-              >
-                <option value="">Select Color</option>
-                {colorOptions.map(color => (
-                  <option key={color} value={color}>{color}</option>
-                ))}
-              </select>
-              {errors.color && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.color}</p>}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Clarity *
-              </label>
-              <select
-                name="clarity"
-                value={formData.clarity}
-                onChange={handleInputChange}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                  errors.clarity ? 'border-red-500' : 'border-gray-200'
-                }`}
-              >
-                <option value="">Select Clarity</option>
-                {clarityOptions.map(clarity => (
-                  <option key={clarity} value={clarity}>{clarity}</option>
-                ))}
-              </select>
-              {errors.clarity && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.clarity}</p>}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cut *
-              </label>
-              <select
-                name="cut"
-                value={formData.cut}
-                onChange={handleInputChange}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                  errors.cut ? 'border-red-500' : 'border-gray-200'
-                }`}
-              >
-                <option value="">Select Cut</option>
-                {cutOptions.map(cut => (
-                  <option key={cut} value={cut}>{cut}</option>
-                ))}
-              </select>
-              {errors.cut && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.cut}</p>}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Certification *
-              </label>
-              <select
-                name="certification"
-                value={formData.certification}
-                onChange={handleInputChange}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                  errors.certification ? 'border-red-500' : 'border-gray-200'
-                }`}
-              >
-                <option value="">Select Certification</option>
-                {certificationOptions.map(cert => (
-                  <option key={cert} value={cert}>{cert}</option>
-                ))}
-              </select>
-              {errors.certification && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.certification}</p>}
-            </div>
-          </div>
-        </div>
-
-        {/* Pricing */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Pricing</h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price Input Method
-              </label>
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="priceType"
-                    value="perCarat"
-                    checked={formData.priceType === 'perCarat'}
-                    onChange={handlePriceTypeChange}
-                    className="mr-2"
-                  />
-                  <span className="text-sm sm:text-base">Price per Carat</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="priceType"
-                    value="total"
-                    checked={formData.priceType === 'total'}
-                    onChange={handlePriceTypeChange}
-                    className="mr-2"
-                  />
-                  <span className="text-sm sm:text-base">Total Price</span>
-                </label>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Basic Information */}
+          <div>
+            <h4 className="text-base font-semibold text-gray-900 mb-3">Basic Information</h4>
+            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Price per Carat ($) *
+                  Diamond Shape *
                 </label>
-                <input
-                  type="number"
-                  name="pricePerCarat"
-                  value={formData.pricePerCarat}
+                <select
+                  name="shape"
+                  value={formData.shape}
                   onChange={handleInputChange}
-                  step="0.01"
-                  min="0"
-                  placeholder="e.g., 8500.00"
-                  disabled={formData.priceType === 'total'}
-                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                    errors.pricePerCarat ? 'border-red-500' : 'border-gray-200'
-                  } ${formData.priceType === 'total' ? 'bg-gray-100' : ''}`}
-                />
-                {errors.pricePerCarat && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.pricePerCarat}</p>}
+                  className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                    errors.shape ? 'border-red-500' : 'border-gray-200'
+                  }`}
+                >
+                  <option value="">Select Shape</option>
+                  {shapeOptions.map(shape => (
+                    <option key={shape} value={shape}>{shape}</option>
+                  ))}
+                </select>
+                {errors.shape && <p className="text-red-500 text-xs mt-1">{errors.shape}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Total Price ($) *
+                  Carat Weight *
                 </label>
                 <input
                   type="number"
-                  name="totalPrice"
-                  value={formData.totalPrice}
+                  name="caratWeight"
+                  value={formData.caratWeight}
                   onChange={handleInputChange}
                   step="0.01"
                   min="0"
-                  placeholder="e.g., 21250.00"
-                  disabled={formData.priceType === 'perCarat'}
-                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base ${
-                    errors.totalPrice ? 'border-red-500' : 'border-gray-200'
-                  } ${formData.priceType === 'perCarat' ? 'bg-gray-100' : ''}`}
+                  placeholder="e.g., 2.50"
+                  className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                    errors.caratWeight ? 'border-red-500' : 'border-gray-200'
+                  }`}
                 />
-                {errors.totalPrice && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.totalPrice}</p>}
+                {errors.caratWeight && <p className="text-red-500 text-xs mt-1">{errors.caratWeight}</p>}
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Stock Status */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Stock Status</h2>
-          <select
-            name="stockStatus"
-            value={formData.stockStatus}
-            onChange={handleInputChange}
-            className="w-full md:w-1/2 px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base"
-          >
-            <option value="Available">Available</option>
-            <option value="Sold Out">Sold Out</option>
-          </select>
-        </div>
+          {/* Diamond Characteristics */}
+          <div>
+            <h4 className="text-base font-semibold text-gray-900 mb-3">Diamond Characteristics</h4>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Color *
+                  </label>
+                  <select
+                    name="color"
+                    value={formData.color}
+                    onChange={handleInputChange}
+                    className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                      errors.color ? 'border-red-500' : 'border-gray-200'
+                    }`}
+                  >
+                    <option value="">Select Color</option>
+                    {colorOptions.map(color => (
+                      <option key={color} value={color}>{color}</option>
+                    ))}
+                  </select>
+                  {errors.color && <p className="text-red-500 text-xs mt-1">{errors.color}</p>}
+                </div>
 
-        {/* Product Images */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Product Images</h2>
-          <div className="space-y-4 sm:space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Clarity *
+                  </label>
+                  <select
+                    name="clarity"
+                    value={formData.clarity}
+                    onChange={handleInputChange}
+                    className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                      errors.clarity ? 'border-red-500' : 'border-gray-200'
+                    }`}
+                  >
+                    <option value="">Select Clarity</option>
+                    {clarityOptions.map(clarity => (
+                      <option key={clarity} value={clarity}>{clarity}</option>
+                    ))}
+                  </select>
+                  {errors.clarity && <p className="text-red-500 text-xs mt-1">{errors.clarity}</p>}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Cut *
+                  </label>
+                  <select
+                    name="cut"
+                    value={formData.cut}
+                    onChange={handleInputChange}
+                    className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                      errors.cut ? 'border-red-500' : 'border-gray-200'
+                    }`}
+                  >
+                    <option value="">Select Cut</option>
+                    {cutOptions.map(cut => (
+                      <option key={cut} value={cut}>{cut}</option>
+                    ))}
+                  </select>
+                  {errors.cut && <p className="text-red-500 text-xs mt-1">{errors.cut}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Certification *
+                  </label>
+                  <select
+                    name="certification"
+                    value={formData.certification}
+                    onChange={handleInputChange}
+                    className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                      errors.certification ? 'border-red-500' : 'border-gray-200'
+                    }`}
+                  >
+                    <option value="">Select Certification</option>
+                    {certificationOptions.map(cert => (
+                      <option key={cert} value={cert}>{cert}</option>
+                    ))}
+                  </select>
+                  {errors.certification && <p className="text-red-500 text-xs mt-1">{errors.certification}</p>}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Pricing */}
+          <div>
+            <h4 className="text-base font-semibold text-gray-900 mb-3">Pricing</h4>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Price Type
+                </label>
+                <div className="flex space-x-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="priceType"
+                      value="perCarat"
+                      checked={formData.priceType === 'perCarat'}
+                      onChange={handlePriceTypeChange}
+                      className="mr-2"
+                    />
+                    <span className="text-sm">Per Carat</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="priceType"
+                      value="total"
+                      checked={formData.priceType === 'total'}
+                      onChange={handlePriceTypeChange}
+                      className="mr-2"
+                    />
+                    <span className="text-sm">Total Price</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {formData.priceType === 'perCarat' ? 'Price Per Carat *' : 'Total Price *'}
+                  </label>
+                  <input
+                    type="number"
+                    name={formData.priceType === 'perCarat' ? 'pricePerCarat' : 'totalPrice'}
+                    value={formData.priceType === 'perCarat' ? formData.pricePerCarat : formData.totalPrice}
+                    onChange={handleInputChange}
+                    step="0.01"
+                    min="0"
+                    placeholder="0.00"
+                    className={`w-full px-3 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm ${
+                      errors.pricePerCarat || errors.totalPrice ? 'border-red-500' : 'border-gray-200'
+                    }`}
+                  />
+                  {(errors.pricePerCarat || errors.totalPrice) && (
+                    <p className="text-red-500 text-xs mt-1">{errors.pricePerCarat || errors.totalPrice}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Stock Status
+                  </label>
+                  <select
+                    name="stockStatus"
+                    value={formData.stockStatus}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                  >
+                    <option value="Available">Available</option>
+                    <option value="Reserved">Reserved</option>
+                    <option value="Sold">Sold</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Images Section - Simplified for mobile */}
+          <div>
+            <h4 className="text-base font-semibold text-gray-900 mb-3">Product Images</h4>
+            
             {/* Existing Images */}
             {existingImages.length > 0 && (
-              <div>
-                <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-3">Current Images</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+              <div className="mb-4">
+                <h5 className="text-sm font-medium text-gray-800 mb-2">Current Images</h5>
+                <div className="grid grid-cols-2 gap-3">
                   {existingImages.map((image) => (
                     <div key={image.id} className="relative">
                       <img
                         src={image.url}
-                        alt={image.filename}
-                        className={`w-full h-24 sm:h-32 object-cover rounded-lg border border-gray-200 ${
-                          imagesToDelete.includes(image.id) ? 'opacity-50 grayscale' : ''
-                        }`}
+                        alt="Product"
+                        className="w-full h-20 object-cover rounded-lg border border-gray-200"
                       />
                       {imagesToDelete.includes(image.id) ? (
-                        <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-red-500/20 rounded-lg flex items-center justify-center">
                           <button
                             type="button"
                             onClick={() => restoreExistingImage(image.id)}
-                            className="bg-green-500 text-white rounded-full px-2 sm:px-3 py-1 text-xs sm:text-sm hover:bg-green-600 transition-colors duration-200"
+                            className="bg-green-500 text-white px-2 py-1 rounded text-xs"
                           >
                             Restore
                           </button>
@@ -582,7 +602,7 @@ const EditProduct = ({ product, onClose, onSuccess, onError }) => {
                         <button
                           type="button"
                           onClick={() => markImageForDeletion(image.id)}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-xs sm:text-sm hover:bg-red-600 transition-colors duration-200"
+                          className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-colors duration-200"
                         >
                           ×
                         </button>
@@ -595,34 +615,34 @@ const EditProduct = ({ product, onClose, onSuccess, onError }) => {
 
             {/* Upload New Images */}
             <div>
-              <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-3">Add New Images</h3>
+              <h5 className="text-sm font-medium text-gray-800 mb-2">Add New Images</h5>
               <input
                 type="file"
                 multiple
                 accept="image/jpeg,image/jpg,image/png,image/webp"
                 onChange={handleImageUpload}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm sm:text-base"
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
               />
-              <p className="text-xs sm:text-sm text-gray-500 mt-1">JPEG, PNG, WebP - Max 5MB each</p>
-              {errors.images && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.images}</p>}
+              <p className="text-xs text-gray-500 mt-1">JPEG, PNG, WebP - Max 5MB each</p>
+              {errors.images && <p className="text-red-500 text-xs mt-1">{errors.images}</p>}
             </div>
 
             {/* New Image Previews */}
             {imagePreviews.length > 0 && (
-              <div>
-                <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-3">New Images to Upload</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+              <div className="mt-4">
+                <h5 className="text-sm font-medium text-gray-800 mb-2">New Images to Upload</h5>
+                <div className="grid grid-cols-2 gap-3">
                   {imagePreviews.map((preview, index) => (
                     <div key={preview.id} className="relative">
                       <img
                         src={preview.url}
                         alt={`New Preview ${index + 1}`}
-                        className="w-full h-24 sm:h-32 object-cover rounded-lg border border-gray-200"
+                        className="w-full h-20 object-cover rounded-lg border border-gray-200"
                       />
                       <button
                         type="button"
                         onClick={() => removeNewImage(index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-xs sm:text-sm hover:bg-red-600 transition-colors duration-200"
+                        className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-colors duration-200"
                       >
                         ×
                       </button>
@@ -632,44 +652,40 @@ const EditProduct = ({ product, onClose, onSuccess, onError }) => {
               </div>
             )}
           </div>
-        </div>
 
-        {/* Submit Error */}
-        {errors.submit && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-3 sm:p-4">
-            <p className="text-red-700 text-xs sm:text-sm">{errors.submit}</p>
+          {/* Submit Error */}
+          {errors.submit && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-3">
+              <p className="text-red-700 text-xs">{errors.submit}</p>
+            </div>
+          )}
+
+          {/* Form Actions */}
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-4 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-all duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSaving}
+              className="flex-1 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {isSaving ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  <span>Updating...</span>
+                </div>
+              ) : (
+                'Update Product'
+              )}
+            </button>
           </div>
-        )}
-
-        {/* Form Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-4 pt-6 border-t border-gray-200">
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-all duration-200 text-sm sm:text-base"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={isSaving}
-            className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base"
-          >
-            {isSaving ? (
-              <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white mr-2"></div>
-                <span className="hidden sm:inline">Updating Product...</span>
-                <span className="sm:hidden">Updating...</span>
-              </div>
-            ) : (
-              <>
-                <span className="hidden sm:inline">Update Product</span>
-                <span className="sm:hidden">Update</span>
-              </>
-            )}
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

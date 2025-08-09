@@ -20,9 +20,8 @@ const DeleteCustomer = ({ customer, isOpen, onClose, onConfirm, isDeleting }) =>
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4">
-        <div className="p-6">
+    <div className="w-full">
+      <div className="p-6">
           {/* Header */}
           <div className="flex items-center mb-4">
             <div className="flex-shrink-0 h-10 w-10">
@@ -122,7 +121,6 @@ const DeleteCustomer = ({ customer, isOpen, onClose, onConfirm, isDeleting }) =>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
